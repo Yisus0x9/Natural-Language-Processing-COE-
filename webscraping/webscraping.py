@@ -271,7 +271,6 @@ class PubMedScraper:
                     continue
                     
                 batch = self._parse_medline_format(medline_text,href)
-                print(batch)
                 for paper in batch:
                     if self._is_paper_valid(paper):
                         collected_papers.append(paper)
