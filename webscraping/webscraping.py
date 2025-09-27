@@ -25,7 +25,7 @@ ARXIV_CONFIG = {
         "cs.CV": "Computer Vision and Pattern Recognition",
         "cs.CR": "Cryptography and Security"
     },
-    'max_results_per_category': 10,
+    'max_results_per_category': 100,  # 100 artículos por sección
     'request_delay': 2,  # segundos entre requests
     'timeout': 30
 }
@@ -33,8 +33,8 @@ ARXIV_CONFIG = {
 # Configuración PubMed
 PUBMED_CONFIG = {
     'base_url': 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils',
-    'max_results': 10,
-    'batch_size': 10,
+    'max_results': 300,  # 300 artículos trending
+    'batch_size': 20,
     'request_delay': 1,  # segundos entre requests
     'timeout': 30,
     'search_term': 'last_30_days[PDat]'  # últimos 30 días
@@ -537,7 +537,7 @@ class DataProcessor:
             logger.warning("No hay datos de PubMed para guardar")
             return
         
-        fieldnames = ['DOI', 'Title', 'Authors', 'Abstract', 'Journal', 'Date', 'PMID']
+        fieldnames = ['DOI', 'Title', 'Authors', 'Abstract', 'Journal', 'Date']
         
         try:
             with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
@@ -551,8 +551,7 @@ class DataProcessor:
                         'Authors': paper.get('authors', ''),
                         'Abstract': paper.get('abstract', ''),
                         'Journal': paper.get('journal', ''),
-                        'Date': paper.get('date', ''),
-                        'PMID': paper.get('pmid', '')
+                        'Date': paper.get('date', '')
                     })
             
             logger.info(f"Datos de PubMed guardados en {filename} ({len(papers)} registros)")
